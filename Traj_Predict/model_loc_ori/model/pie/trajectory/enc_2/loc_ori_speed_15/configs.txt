@@ -1,0 +1,31 @@
+####### Model options #######
+normalize_bbox: True
+bbox_type: Interframe_offset
+track_overlap: 0.5
+observe_length: 15
+predict_length: 15
+enc_input_type1: ['bbox']
+enc_input_type2: ['degree_pred']
+enc_input_type3: []
+dec_input_type: ['obd_speed']
+prediction_type: ['bbox']
+
+####### Network config #######
+hidden_units: 256
+reg_value : 0.0001
+activation: softsign
+embed_size: 64
+embed_dropout: 0
+observe_length: 14
+predict_length : 15
+encoder_feature_size_bbox: 4
+encoder_feature_size_ori: 4
+decoder_feature_size: 1
+prediction_size: 4
+
+####### Training config #######
+batch_size: 64
+epochs: 60
+lr: 0.001
+loss: mse
+learning_scheduler: True

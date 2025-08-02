@@ -1,0 +1,62 @@
+第三章代码说明：包括行人头部与身体方向预测、光流提取和轨迹预测
+
+行人头部与身体方向预测：运行/home/data/ly/PedRec/PedRec/predict.py
+
+jaad和pie使用文章Multimodal Transformer Networks for Pedestrian Trajectory Prediction中同样的光流数据
+光流提取：运行/home/data/ly/RAFT/demo.py
+
+data：存放处理后的数据集
+model：存放训练好的模型
+model_loc_ori：融入方向和光流的模型的训练与测试
+model_loc_ori/model：存放融入方向和光流的训练模型
+
+
+步骤1：获取训练/测试数据
+①读取原始数据
+（运行jaad_data_read.py、pie_data_read.py、daimler_data.py）
+
+jaad_data.py：JAAD数据集代码包中的原始文件
+jaad_data_read.py：保存训练集、测试集和验证集文件，保存路径'data/jaad/data_file/'
+
+pie_data.py：PIE数据集代码包中的原始文件
+pie_data_read.py：保存训练集、测试集和验证集文件，保存路径'data/pie/data_file/'
+
+carla_data_read.py：保存训练集、测试集和验证集文件，保存路径'data/carla/data_file/'
+[
+②头部与身体方向估计（PedRec代码）
+运行PedRec/predict.py
+
+predict.py：运行三次分别预测JAAD和PIE和Carla行人头部与身体方向，与data_file文件中的数据一起保存到路径'data/jaad/data_add/'或'data/pie/data_add/'或'data/carla/data_add/'（需要更改读取路径和保存路径中的数据集名称）
+]
+
+
+步骤2：训练并测试车速预测模型
+（PIE和Carla：运行train.py，JAAD不提供车速）
+
+pie_predict.py：模型文件，包括数据处理、构建网络、训练参数设置、测试函数
+train.py：训练主文件，train_type = 'speed'
+
+
+运行命令：python train.py 1（数字为0：仅训练；数字为1：训练并测试；数字为2：仅测试）
+
+
+步骤3：训练并测试轨迹预测模型（输入历史轨迹、方向、光流、车速）
+运行model_loc_ori/train.py
+
+model_loc_ori/traj_predict.py：模型文件，包括数据处理、构建网络、训练参数设置、测试函数
+model_loc_ori/train.py：训练主文件，需更改train_type、out_model_path、dataset（jaad、pie或carla）。
+                                       [pie和carla：train_type = 'loc_ori_speed_flow'，jaad：train_type = 'loc_ori_flow']
+
+步骤4：消融实验
+与步骤3类似，需更改train_type、out_model_path、dataset
+
+仅输入历史轨迹：在Traj_Predict下运行，train_type = 'loc_offset'
+输入历史轨迹、方向：在Traj_Predict/model_loc_ori下运行，train_type = 'loc_ori'
+输入历史轨迹、方向、速度：在Traj_Predict/model_loc_ori下运行，train_type = 'loc_ori_speed'
+输入历史轨迹、方向、速度、光流：在Traj_Predict/model_loc_ori下运行，train_type = 'loc_ori_speed_flow'
+
+步骤5：预测轨迹可视化
+运行model_loc_ori/draw_trajectory.py
+
+
+
