@@ -1,0 +1,2 @@
+This is the code for our manuscript 'Pedestrian Trajectory Prediction for Autonomous Driving Considering Head and Body Orientations'
+Required publicly available datasets include, 1) JAAD - https://data.nvision2.eecs.yorku.ca/JAAD_dataset/, 2) PIE - https://data.nvision2.eecs.yorku.ca/PIE_dataset/, 3)Daimler - http://www.gavrila.net/Datasets/Daimler_Pedestrian_Benchmark_D/daimler_pedestrian_benchmark_d.html.
